@@ -99,8 +99,9 @@ export default class Ethers extends TsGeneratorPlugin {
   }
 
   genContractTypingsFile(contract: Contract): TFileDesc {
+    this.contractFiles.push(`${contract.name}`)
     return {
-      path: join(this.outDirAbs, `types/${contract.name}.d.ts`),
+      path: join(this.outDirAbs, `${contract.name}.d.ts`),
       contents: codegenContractTypings(contract),
     }
   }
@@ -129,7 +130,7 @@ export default class Ethers extends TsGeneratorPlugin {
     return [
       // ...abstractFactoryFiles,
       {
-        path: join(this.outDirAbs, 'index.ts'),
+        path: join(this.outDirAbs, 'types.d.ts'),
         contents: this.contractFiles.map((fileName) => `export * from './${fileName}'`)
           .join('\n'),
       },
